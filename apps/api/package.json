@@ -1,0 +1,48 @@
+{
+  "name": "@tixly/api",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:push": "prisma db push"
+  },
+  "dependencies": {
+    "@fastify/cors": "^11.1.0",
+    "@fastify/jwt": "^9.1.0",
+    "@fastify/rate-limit": "^10.3.0",
+    "@langchain/core": "^1.0.0",
+    "@langchain/langgraph": "^1.0.0",
+    "@prisma/adapter-pg": "^7.0.0",
+    "@prisma/client": "^7.0.0",
+    "@tixly/shared": "workspace:*",
+    "bcryptjs": "^3.0.2",
+    "chrono-node": "^2.8.0",
+    "dotenv": "^17.2.2",
+    "fastify": "^5.6.0",
+    "openai": "^6.7.0",
+    "pg": "^8.16.3",
+    "zod": "^4.1.5"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^24.5.2",
+    "@types/pg": "^8.15.5",
+    "prisma": "^7.0.0",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  }
+}
