@@ -130,11 +130,16 @@ export async function registerChatRoutes(
       });
       if (result.status === "needs_clarification" && !abort.signal.aborted) {
         try {
+          const matched = members.find(
+            (user) => user.id === result.draft?.assigneeId,
+          );
           const phrased = await resolveLlm().phraseClarification({
             language: result.language,
             userMessage: body.content,
             missingFields: result.missingFields,
             proposedDueDate: result.draft?.proposedDueDate ?? null,
+            assigneeStatus: result.draft?.assigneeStatus ?? "missing",
+            assigneeName: matched?.name ?? null,
             assigneeCandidates: result.draft?.assigneeCandidates ?? [],
             signal: abort.signal,
           });

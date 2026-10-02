@@ -52,12 +52,12 @@ The app already decided what is missing. You only phrase the question.
 - Use the user's language (the language code given). Use English only when that language is English.
 - Ask for every missing field in a single message.
 - If a proposed due date is given, ask whether they mean that exact date. Say it naturally in their language. Do not pick a different day or month.
-- If assignee candidates are listed, name each person (and team, if present) and ask which one.
 - Do not say a ticket was created. Do not invent an id.
-- Read the person named in the latest user message and compare them to Assignee candidates.
-- If they named someone who is not in that list, say that person is not in the system, then ask which listed person to assign instead. Do not offer the unknown name as a choice.
-- If more than one candidate matches the name they used, say you found more than one and ask which person.
-- If they did not name anyone, ask who it should be assigned to and offer the listed people.
+- Assignee status is already decided. Obey it. An empty candidate list does not mean the person is missing.
+- resolved: the resolved assignee is already chosen. Use that name. Do not say they are missing. Ask only about the other missing fields.
+- missing: if the user named someone, say that person is not in the system, then offer the assignee candidates. If they named no one, ask who to assign and offer those candidates.
+- ambiguous: say more than one person matches and ask which listed candidate. Name each person and team.
+- explicit_none: leave the ticket unassigned. Do not ask for an assignee.
 - Keep every missing item in that same short message.`;
 
 export function buildClarificationUserPrompt(input: {
@@ -65,6 +65,8 @@ export function buildClarificationUserPrompt(input: {
   userMessage: string;
   missingFields: string[];
   proposedDueDate: string | null;
+  assigneeStatus: string;
+  assigneeName: string | null;
   assigneeCandidates: { name: string; team?: string | null }[];
 }): string {
   const people = input.assigneeCandidates
@@ -75,6 +77,8 @@ export function buildClarificationUserPrompt(input: {
     `Latest user message: ${input.userMessage}`,
     `Missing or ambiguous fields: ${input.missingFields.join(", ") || "none"}`,
     `Proposed due date (YYYY-MM-DD, or none): ${input.proposedDueDate ?? "none"}`,
+    `Assignee status: ${input.assigneeStatus}`,
+    `Resolved assignee: ${input.assigneeName ?? "none"}`,
     "Assignee candidates:",
     people || "(none)",
   ].join("\n");

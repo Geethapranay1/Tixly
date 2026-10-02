@@ -1,4 +1,4 @@
-import type { ExtractionResult } from "@tixly/shared";
+import type { AssigneeStatus, ExtractionResult } from "@tixly/shared";
 
 export type ExtractionInput = {
   nowIso: string;
@@ -16,6 +16,8 @@ export type ClarificationInput = {
   userMessage: string;
   missingFields: string[];
   proposedDueDate: string | null;
+  assigneeStatus: AssigneeStatus;
+  assigneeName: string | null;
   assigneeCandidates: { name: string; team?: string | null }[];
   signal?: AbortSignal;
 };
